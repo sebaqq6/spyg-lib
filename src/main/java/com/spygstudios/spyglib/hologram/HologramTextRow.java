@@ -183,7 +183,14 @@ public class HologramTextRow extends HologramRow {
                 Class<?> entityTextDisplayClass = HoloUtils.getNMSClass("world.entity.Display$TextDisplay");
                 // World (classic NMS) or Level class (Mojang mappings)
                 Class<?> entityTypeClass = HoloUtils.getNMSClass("world.entity.EntityType");
-                Field textDisplayField = entityTypeClass.getDeclaredField("TEXT_DISPLAY");
+                Field textDisplayField;
+                try {
+                    textDisplayField = entityTypeClass.getDeclaredField("TEXT_DISPLAY");
+                } catch (NoSuchFieldException e) {
+                    // 1.26.2+: the EntityType registry objects were moved to EntityTypes
+                    Class<?> entityTypesClass = HoloUtils.getNMSClass("world.entity.EntityTypes");
+                    textDisplayField = entityTypesClass.getDeclaredField("TEXT_DISPLAY");
+                }
                 Class<?> worldClass = HoloUtils.getWorldClass();
                 Constructor<?> textDisplayConstructor = entityTextDisplayClass.getConstructor(entityTypeClass,
                         worldClass);
