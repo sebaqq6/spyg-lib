@@ -1,17 +1,15 @@
 plugins {
 	id 'java'
-	id("com.github.johnrengelman.shadow") version("8.1.1")
+	id("com.gradleup.shadow") version("9.0.0")
 	id 'maven-publish'
+	id 'io.papermc.paperweight.userdev' version '2.0.0-beta.24'
 }
 
 group = 'com.spygstudios'
-version = '1.4.6'
+version = '1.4.7'
 description = 'A lightweight library for Spyg plugins.'
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
-	}
 	withSourcesJar()
 }
 
@@ -37,7 +35,7 @@ repositories {
 }
 
 ext {
-	lombokVersion = '1.18.38'
+	lombokVersion = '1.18.48'
 }
 
 configurations {
@@ -51,13 +49,13 @@ dependencies {
 	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 	implementation "dev.rollczi:litecommands-adventure:3.10.4"
 	implementation "dev.rollczi:litecommands-bukkit:3.10.4"
-	compileOnly "io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT"
-	compileOnly "io.papermc.paper:paper:1.21.7"
+	paperweight.paperDevBundle("26.2.build.129-stable")
 }
 
 tasks.withType(JavaCompile).configureEach { t ->
 	options.encoding = 'UTF-8'
 	options.compilerArgs += ['-parameters']
+	options.release = 25
 }
 
 tasks.jar {
