@@ -10,6 +10,9 @@ version = '1.4.7'
 description = 'A lightweight library for Spyg plugins.'
 
 java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(25)
+	}
 	withSourcesJar()
 }
 
